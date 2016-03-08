@@ -2,6 +2,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class Main {
@@ -11,13 +13,11 @@ public class Main {
 	static List<Person> personen = new ArrayList<Person>();
 	static int von, bis;
 	
-	static int counter = 0;
-	
 	public static void main(String[] args) {
 
 		try {
 			Main m = new Main();
-			personen = m.readAndSetUp("worst");
+			personen = m.readAndSetUp("avg");
 			m.start();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -26,13 +26,24 @@ public class Main {
 
 	
 	public void start() throws Exception{ 
+
+		//bubbleSort(personen);
 		
-		bubbleSort(personen);
+		personen = mergeSort(personen);
+		
+		List<Person> neu = readAndSetUp("best");
+		
+		for(int i = 0; i < personen.size(); i++){
+			if(!personen.get(i).equals(neu.get(i))){
+				System.out.println("\n\nUNFALL "+i);
+			}
+		}
+		
+		System.out.println("\n\n\nAnzahl: "+personen.size());
 	}
 	
 	public List<Person> readAndSetUp(String fileName) throws Exception{
 		
-		counter = 0;
 		List<Person> p = new ArrayList<Person>();
 		
 		File csv = new File(this.getClass().getResource("emp_"+fileName+".csv").toURI());
@@ -41,9 +52,9 @@ public class Main {
 		str = br.readLine();
 		
 		while(str != null){
-			counter++;
+			
 			splittedStr = str.split("\\s+");
-			if(splittedStr[1].equals("Aamodt"))
+			if(splittedStr[0].equals("Aluzio") && splittedStr[1].charAt(0) == 'A')
 				p.add(new Person(splittedStr[0], splittedStr[1], (int)(Math.random()*100)));
 			
 			str = br.readLine();
@@ -54,29 +65,59 @@ public class Main {
 		return p;
 	}
 	
-	static void quickSort(List<Person> a, int left, int right){
+	public static List<Person> mergeSort(List<Person> pers){
 		
-		int le, ri;
-		le = left; ri = right;
-		
-		Person pivot = a.get(5);
-		
-		while(le <= ri){
-		
-			while(a.get(le).compareTo(pivot) == -1)	le++;
-			while(pivot.compareTo(a.get(ri)) == 1)	ri--;
-
-			if(le <= ri){
-				swap(a, le, ri);
-				le++; ri--;
-			}
+		if(pers.size() > 1){
+			
+			List<Person> p1 = new ArrayList<Person>();
+			List<Person> p2 = new ArrayList<Person>();
+			
+			p1.addAll(pers);
+			p2.addAll(pers);
+			p2.removeAll(p1);
+			
+			//return merge(mergeSort(p1), mergeSort(p2));
+			return pers;
 		}
-
-		if(left < ri)	quickSort(a, left, ri);
-		if(le < right)	quickSort(a, le, right);
-
+		else
+			return pers;
 	}
 	
+	public static List<Person> merge(List<Person> m1, List<Person> m2) {
+
+		int posA = 0, posB = 0, pos = 0;
+		List<Person> erg = new ArrayList<Person>();
+		
+		while(posA < m1.size() && posB < m2.size()){
+			
+			if(m1.get(posA).compareTo(m2.get(posB)) <= 0){
+				erg.set(pos, m1.get(posA));
+				posA++;
+				pos++;
+			}
+			else{
+				erg.set(pos, m2.get(posB));
+				posB++;
+				pos++;
+			}
+		}
+		
+		while(posA < m1.size()){
+			erg.set(pos, m1.get(posA));
+			posA++;
+			pos++;
+		}
+		
+		while(posB < m2.size()){
+			erg.set(pos, m2.get(posB));
+			posB++;
+			pos++;
+		}
+		
+		return erg;
+	}
+
+
 	static void bubbleSort(List<Person> ar){
 		
 		boolean sorted = false;
@@ -98,9 +139,7 @@ public class Main {
 	
 	static public void swap(List<Person> a, int x, int y){
 		
-		counter++;
 		Person temp = a.get(x);
-		
 		//x = y
 		a.set(x,  a.get(y));
 		//y = x
