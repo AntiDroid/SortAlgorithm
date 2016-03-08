@@ -27,13 +27,7 @@ public class Main {
 	
 	public void start() throws Exception{ 
 		
-		counter = 0;
-
 		bubbleSort(personen);
-		if(personen.equals(readAndSetUp("best")))
-			System.out.println("Yeah");
-		
-		System.out.println(counter);
 	}
 	
 	public List<Person> readAndSetUp(String fileName) throws Exception{
@@ -49,7 +43,8 @@ public class Main {
 		while(str != null){
 			counter++;
 			splittedStr = str.split("\\s+");
-			p.add(new Person(splittedStr[0], splittedStr[1], (int)(Math.random()*100)));
+			if(splittedStr[1].equals("Aamodt"))
+				p.add(new Person(splittedStr[0], splittedStr[1], (int)(Math.random()*100)));
 			
 			str = br.readLine();
 		}
@@ -86,12 +81,10 @@ public class Main {
 		
 		boolean sorted = false;
 		int upper_border = ar.size();
-		
 		while(!sorted){
 			
 			sorted = true;
 			upper_border--;
-			
 			for(int i = 0; i < upper_border; i++){
 				if(ar.get(i).compareTo(ar.get(i+1)) == 1){
 					swap(ar, i, i+1);
@@ -100,9 +93,6 @@ public class Main {
 			}
 			
 		}
-		
-		if(counter%100 == 0)
-			System.out.println(counter);
 		
 	}
 	

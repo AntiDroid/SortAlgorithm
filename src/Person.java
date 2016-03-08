@@ -44,7 +44,7 @@ public class Person implements Comparable<Object>{
 		
 		Person p = (Person)o;
 		
-		return (this.vorname == p.vorname) && (this.nachname == p.nachname);// && (this.alter == p.alter);
+		return (this.vorname.equals(p.vorname)) && (this.nachname.equals(p.nachname));// && (this.alter == p.alter);
 	}
 	
 	@Override
@@ -52,8 +52,8 @@ public class Person implements Comparable<Object>{
 		
 		Person o = (Person)arg0;
 		
-		int nn = this.nachname.compareTo(o.nachname);
-		int vn = this.vorname.compareTo(o.vorname);
+		int nn = this.nachname.compareToIgnoreCase(o.nachname);
+		int vn = this.vorname.compareToIgnoreCase(o.vorname);
 		
 		if(nn == 0){
 			
