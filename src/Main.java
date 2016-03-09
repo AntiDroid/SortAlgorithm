@@ -2,8 +2,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public class Main {
@@ -30,12 +28,13 @@ public class Main {
 		//bubbleSort(personen);
 		
 		personen = mergeSort(personen);
+		System.out.println("\n\n\nAnzahl: "+personen.size());
 		
 		List<Person> neu = readAndSetUp("best");
 		
 		for(int i = 0; i < personen.size(); i++){
 			if(!personen.get(i).equals(neu.get(i))){
-				System.out.println("\n\nUNFALL "+i);
+				System.out.println("\n\nFEHLER "+i);
 			}
 		}
 		
@@ -54,7 +53,7 @@ public class Main {
 		while(str != null){
 			
 			splittedStr = str.split("\\s+");
-			if(splittedStr[0].equals("Aluzio") && splittedStr[1].charAt(0) == 'A')
+			if(splittedStr[0].equals("Aluzio") && splittedStr[1].charAt(0) == 'B')// && splittedStr[1].charAt(1) == 'a')
 				p.add(new Person(splittedStr[0], splittedStr[1], (int)(Math.random()*100)));
 			
 			str = br.readLine();
@@ -69,47 +68,42 @@ public class Main {
 		
 		if(pers.size() > 1){
 			
-			List<Person> p1 = new ArrayList<Person>();
-			List<Person> p2 = new ArrayList<Person>();
+			List<Person> p1 = pers.subList(0, pers.size()/2);
+			List<Person> p2 = pers.subList((pers.size()/2), pers.size());
 			
-			p1.addAll(pers);
-			p2.addAll(pers);
-			p2.removeAll(p1);
-			
-			//return merge(mergeSort(p1), mergeSort(p2));
+			return merge(mergeSort(p1), mergeSort(p2));
+		}
+		else{
 			return pers;
 		}
-		else
-			return pers;
 	}
 	
 	public static List<Person> merge(List<Person> m1, List<Person> m2) {
 
 		int posA = 0, posB = 0, pos = 0;
 		List<Person> erg = new ArrayList<Person>();
-		
 		while(posA < m1.size() && posB < m2.size()){
-			
 			if(m1.get(posA).compareTo(m2.get(posB)) <= 0){
-				erg.set(pos, m1.get(posA));
+				erg.add(m1.get(posA));
 				posA++;
 				pos++;
+			
 			}
 			else{
-				erg.set(pos, m2.get(posB));
+				erg.add(m2.get(posB));
 				posB++;
 				pos++;
 			}
 		}
 		
 		while(posA < m1.size()){
-			erg.set(pos, m1.get(posA));
+			erg.add(m1.get(posA));
 			posA++;
 			pos++;
 		}
 		
 		while(posB < m2.size()){
-			erg.set(pos, m2.get(posB));
+			erg.add(m2.get(posB));
 			posB++;
 			pos++;
 		}
