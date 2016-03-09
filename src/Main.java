@@ -1,67 +1,56 @@
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
 
-	static String str;
-	static String[] splittedStr;
-	static List<Person> personen = new ArrayList<Person>();
-	static int von, bis;
+	static double dur;
+	static boolean recursive = true;
 	
 	public static void main(String[] args) {
 
 		try {
 			Main m = new Main();
-			personen = m.readAndSetUp("avg");
 			m.start();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	
 	public void start() throws Exception{ 
-
-		//bubbleSort(personen);
 		
-		personen = mergeSort(personen);
-		System.out.println("\n\n\nAnzahl: "+personen.size());
+		List<Person> pe = new ArrayList<Person>();
 		
-		List<Person> neu = readAndSetUp("best");
+		Person.readAndSetUp("worst", 10);
+		sort(!recursive);
 		
-		for(int i = 0; i < personen.size(); i++){
-			if(!personen.get(i).equals(neu.get(i))){
-				System.out.println("\n\nFEHLER "+i);
-			}
-		}
+		pe = Person.getPersonen();
 		
-		System.out.println("\n\n\nAnzahl: "+personen.size());
+		Person.readAndSetUp("avg", 10);
+		sort(!recursive);		
+		
+		Person.readAndSetUp("best", 10);
+		sort(recursive);
+		
+		for(int i = 0; i < pe.size(); i++)
+			if(!pe.get(i).equals(Person.getPersonen().get(i)))
+				System.out.println("FEHLER");
+		
+		System.out.println("\n\n\n\nAnzahl der Elemente: "+Person.getPersonen().size());
 	}
 	
-	public List<Person> readAndSetUp(String fileName) throws Exception{
+	public static void sort(boolean r) {
 		
-		List<Person> p = new ArrayList<Person>();
-		
-		File csv = new File(this.getClass().getResource("emp_"+fileName+".csv").toURI());
-		BufferedReader br = new BufferedReader(new FileReader(csv));
-			
-		str = br.readLine();
-		
-		while(str != null){
-			
-			splittedStr = str.split("\\s+");
-			if(splittedStr[0].equals("Aluzio") && splittedStr[1].charAt(0) == 'B')// && splittedStr[1].charAt(1) == 'a')
-				p.add(new Person(splittedStr[0], splittedStr[1], (int)(Math.random()*100)));
-			
-			str = br.readLine();
+		double start = System.currentTimeMillis();
+
+		if(r){
+			System.out.print("\nRekursiv("+Person.getPersonen().size()+")\t");
+			Person.setPersonen(mergeSort(Person.getPersonen()));
 		}
-		
-		br.close();
-		
-		return p;
+		else{
+			System.out.println("\nNormal("+Person.getPersonen().size()+")\t");
+			bubbleSort(Person.getPersonen());
+		}
+		System.out.print("Dauer = "+ (System.currentTimeMillis()-start)+"\n");
 	}
 	
 	public static List<Person> mergeSort(List<Person> pers){
@@ -80,39 +69,35 @@ public class Main {
 	
 	public static List<Person> merge(List<Person> m1, List<Person> m2) {
 
-		int posA = 0, posB = 0, pos = 0;
+		int posA = 0, posB = 0;
+		
 		List<Person> erg = new ArrayList<Person>();
+		
 		while(posA < m1.size() && posB < m2.size()){
 			if(m1.get(posA).compareTo(m2.get(posB)) <= 0){
 				erg.add(m1.get(posA));
 				posA++;
-				pos++;
-			
 			}
 			else{
 				erg.add(m2.get(posB));
 				posB++;
-				pos++;
 			}
 		}
 		
 		while(posA < m1.size()){
 			erg.add(m1.get(posA));
 			posA++;
-			pos++;
 		}
 		
 		while(posB < m2.size()){
 			erg.add(m2.get(posB));
 			posB++;
-			pos++;
 		}
 		
 		return erg;
 	}
 
-
-	static void bubbleSort(List<Person> ar){
+	public static void bubbleSort(List<Person> ar){
 		
 		boolean sorted = false;
 		int upper_border = ar.size();
@@ -131,7 +116,7 @@ public class Main {
 		
 	}
 	
-	static public void swap(List<Person> a, int x, int y){
+	public static void swap(List<Person> a, int x, int y){
 		
 		Person temp = a.get(x);
 		//x = y

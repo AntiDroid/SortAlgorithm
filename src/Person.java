@@ -1,8 +1,14 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Person implements Comparable<Object>{
 
 	private String vorname, nachname;
 	private int alter;
+	
+	private static List<Person> personen = new ArrayList<Person>();
 	
 	public Person(String vn, String nn, int a){
 		setVorname(vn);
@@ -34,10 +40,6 @@ public class Person implements Comparable<Object>{
 		this.vorname = vorname;
 	}
 	
-	
-	public String toString(){
-		return "Vorname: "+vorname+"\t\tNachname: "+nachname+"\nAlter: "+alter+"\n";
-	}
 	
 	@Override
 	public boolean equals(Object o){
@@ -81,5 +83,39 @@ public class Person implements Comparable<Object>{
 		}
 		
 		return 0;
+	}
+
+	
+	public String toString(){
+		return "Vorname: "+vorname+"\t\tNachname: "+nachname+"\nAlter: "+alter+"\n";
+	}
+	
+	public static void readAndSetUp(String fileName, int entries) throws Exception{
+			
+		personen.clear();
+		
+		String str;
+		String[] splittedStr;
+			
+		String csv = "emp_"+fileName+".csv";
+		BufferedReader br = new BufferedReader(new FileReader(csv));
+				
+		str = br.readLine();
+			
+		for(int i = 0; (i < entries) && (str != null); i++){
+			splittedStr = str.split("\\s+");
+			personen.add(new Person(splittedStr[0], splittedStr[1], (int)(Math.random()*100)));
+			str = br.readLine();
+		}
+		
+		br.close();
+	}
+
+	public static List<Person> getPersonen() {
+		return personen;
+	}
+
+	public static void setPersonen(List<Person> p) {
+		personen = p;
 	}
 }
