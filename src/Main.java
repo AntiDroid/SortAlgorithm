@@ -1,3 +1,4 @@
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -25,53 +26,52 @@ public class Main {
 		int count = 0;
 		
 		do{
-			System.out.println("How many entries should be used?");
+			System.out.println("How many entries should be used? (random input to abort)");
 			
 			try{
 				count = Integer.parseInt(in.next());
 			}catch(Exception e){
-				count = 0;
-				continue;
+				break;
 			}
-		
+			
 			double[] rec = new double[3];
 			double[] normal = new double[3];
 			
 			for(int i = 0; i < 3; i++){
+				
 				Person.readAndSetUp(mode[i], count);
 				rec[i] = sort(recursive);
+				
 				Person.readAndSetUp(mode[i], count);
 				normal[i] = sort(recursive);
 			}
 			
-			System.out.println("\n\n\n\tRecursive\tNormal");
-			System.out.println("\nBEST\t"+rec[0]+"ms\t"+normal[0]+"ms");
-			System.out.println("\nAVG\t"+rec[1]+"ms\t\t"+normal[1]+"ms");
-			System.out.println("\nWORST\t"+rec[2]+"ms\t\t"+normal[2]+"ms");
-			
-			System.out.println("\n\n");
-			System.out.println("Restart?[0/1]");
-			
-			try{
-				if(Integer.parseInt(in.next()) == 1)
-					count = 0;
-			}catch(Exception e){
-				break;
-			}
-			
-		}while(count < 2);
+			PrintWriter writer = new PrintWriter("the-file-name.txt", "UTF-8");
+			writer.println("\n\n\n\t  Recursive\t\t   Normal");
+			writer.println("\nBEST\t "+rec[0]+"ms \t\t\t"+normal[0]+"ms");
+			writer.println("\nAVG \t "+rec[1]+"ms \t\t\t"+normal[1]+"ms");
+			writer.println("\nWORST\t "+rec[2]+"ms \t\t\t"+normal[2]+"ms");
+			writer.println("\nItems: "+count);
 		
-		System.out.println("Test aborted");
+			
+			writer.close();
+			System.out.println("\n\n\n\n\n\n\n\n\n");
+			
+		}while(true);
+		
+		System.out.println("Benchmark aborted");
 		
 		in.close();
 	}
 	
 	public static boolean testSorting(boolean isRecursive) throws Exception{
 		
-		Person.readAndSetUp(mode[0], 999999);
-		List<Person> superListe = new ArrayList<Person>(Person.getPersonen());
+		Person.readAndSetUp(mode[1], 99999);
+		sort(isRecursive);
+		List<Person> superListe = new ArrayList<Person>();
+		superListe.addAll(Person.getPersonen());
 		
-		Person.readAndSetUp(mode[1], 999999);
+		Person.readAndSetUp(mode[1], 99999);
 		sort(isRecursive);
 		
 		for(int i = 0; i < Person.getPersonen().size(); i++)
@@ -114,7 +114,7 @@ public class Main {
 		List<T> erg = new ArrayList<T>();
 		
 		while(posA < m1.size() && posB < m2.size()){
-			if(m1.get(posA).compareTo(m2.get(posB)) >= 0){
+			if(m1.get(posA).compareTo(m2.get(posB)) <= 0){
 				erg.add(m1.get(posA));
 				posA++;
 			}
@@ -158,4 +158,5 @@ public class Main {
 		//y = x
 		a.set(y, temp);
 	}
+
 }

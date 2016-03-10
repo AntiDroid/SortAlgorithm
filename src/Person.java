@@ -58,7 +58,14 @@ public class Person implements Comparable<Object>{
 	@Override
 	public int compareTo(Object arg0) {
 		
-		Person o = (Person)arg0;
+		Person o;
+		
+		try{
+			o = (Person)arg0;
+		}catch(ClassCastException e){
+			System.out.println("CompareTo-Problem");
+			return 0;
+		}
 		
 		int nn = this.nachname.compareToIgnoreCase(o.nachname);
 		int vn = this.vorname.compareToIgnoreCase(o.vorname);
