@@ -23,10 +23,6 @@ public class Main {
 		
 		int count = 0;
 		
-		if(testSorting(false)){
-			System.out.println("geht eh");
-		}
-		
 		do{
 			System.out.println("How many entries should be used?");
 			
@@ -37,37 +33,40 @@ public class Main {
 				continue;
 			}
 		
-			//Rekursives sortieren
-			System.out.println("\n\nWORST");
-			Person.readAndSetUp("worst", count);
-			sort(recursive);
-			System.out.println("\nAVG");
-			Person.readAndSetUp("avg", count);
-			sort(recursive);
-			System.out.println("\nBEST");
-			Person.readAndSetUp("best", count);
-			sort(recursive);
-		
-			//Normales sortieren
-			System.out.println("\n\n\n\nWORST");
-			Person.readAndSetUp("worst", count);
-			sort(!recursive);
-			System.out.println("\nAVG");
-			Person.readAndSetUp("avg", count);
-			sort(!recursive);
-			System.out.println("\nBEST");
-			Person.readAndSetUp("best", count);
-			sort(!recursive);
+			double[] rec = new double[3];
+			double[] nor = new double[3];
 			
+			//Rekursiv
+			Person.readAndSetUp("best", count);
+			rec[0] = sort(recursive);
+			Person.readAndSetUp("avg", count);
+			rec[1] = sort(recursive);
+			Person.readAndSetUp("worst", count);
+			rec[2] = sort(recursive);
+			
+			//Normal
+			Person.readAndSetUp("best", count);
+			nor[0] = sort(!recursive);
+			Person.readAndSetUp("avg", count);
+			nor[1] = sort(!recursive);
+			Person.readAndSetUp("worst", count);
+			nor[2] = sort(!recursive);
+			
+			System.out.println("\n\n\n\tRecursive\tNormal");
+			System.out.println("\nBEST\t  "+rec[0]+"\t\t "+nor[0]);
+			System.out.println("\nAVG\t  "+rec[1]+"\t\t "+nor[1]);
+			System.out.println("\nWORST\t  "+rec[2]+"\t\t "+nor[2]);
+			
+			System.out.println("\n\n");
 			System.out.println("Restart?[0/1]");
 			
 			try{
 				if(Integer.parseInt(in.next()) == 1)
 					count = 0;
 			}catch(Exception e){
-				
 				break;
 			}
+			
 		}while(count < 2);
 		
 		System.out.println("Test aborted");
@@ -90,19 +89,16 @@ public class Main {
 		return true;
 	}
 	
-	public static void sort(boolean r) {
+	public static double sort(boolean r) {
 		
 		double start = System.currentTimeMillis();
 
-		if(r){
-			System.out.print("\trecursive("+Person.getPersonen().size()+")\t");
+		if(r)
 			Person.setPersonen(mergeSort(Person.getPersonen()));
-		}
-		else{
-			System.out.print("\tnormal("+Person.getPersonen().size()+")\t");
+		else
 			selectionSort(Person.getPersonen());
-		}
-		System.out.print("Duration = "+ (System.currentTimeMillis()-start)+" ms\n");
+		
+		return (System.currentTimeMillis()-start);
 	}
 	
 	public static List<Person> mergeSort(List<Person> pers){
@@ -114,9 +110,9 @@ public class Main {
 			
 			return merge(mergeSort(p1), mergeSort(p2));
 		}
-		else{
+		else
 			return pers;
-		}
+		
 	}
 	
 	public static List<Person> merge(List<Person> m1, List<Person> m2) {
@@ -159,7 +155,6 @@ public class Main {
 					min = j;
 			}
 			swap(ar, i, min);
-			System.out.println(i);
 		}
 	}
 	

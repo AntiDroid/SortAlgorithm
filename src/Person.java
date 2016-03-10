@@ -64,7 +64,6 @@ public class Person implements Comparable<Object>{
 		int vn = this.vorname.compareToIgnoreCase(o.vorname);
 		
 		if(nn == 0){
-			
 			if(vn == 0){
 				if(this.alter == o.alter)
 					return 0;
@@ -73,20 +72,17 @@ public class Person implements Comparable<Object>{
 				else if(this.alter > o.alter)
 					return 1;
 			}
-			else if(vn > 0){
+			else if(vn > 0)
 				return 1;
-			}
-			else if(vn < 0){
+			
+			else if(vn < 0)
 				return -1;
-			}
-	
 		}
-		else if(nn > 0){
+		else if(nn > 0)
 			return 1;
-		}
-		else if(nn < 0){
+		
+		else if(nn < 0)
 			return -1;
-		}
 		
 		return 0;
 	}
