@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Main {
 
@@ -18,24 +19,75 @@ public class Main {
 
 	public void start() throws Exception{ 
 		
-		List<Person> pe = new ArrayList<Person>();
+		Scanner in = new Scanner(System.in);
 		
-		Person.readAndSetUp("worst", 10);
-		sort(!recursive);
+		int count = 0;
 		
-		pe = Person.getPersonen();
+		if(testSorting(false)){
+			System.out.println("geht eh");
+		}
 		
-		Person.readAndSetUp("avg", 10);
-		sort(!recursive);		
+		do{
+			System.out.println("How many entries should be used?");
+			
+			try{
+				count = Integer.parseInt(in.next());
+			}catch(Exception e){
+				count = 0;
+				continue;
+			}
 		
-		Person.readAndSetUp("best", 10);
-		sort(recursive);
+			//Rekursives sortieren
+			System.out.println("\n\nWORST");
+			Person.readAndSetUp("worst", count);
+			sort(recursive);
+			System.out.println("\nAVG");
+			Person.readAndSetUp("avg", count);
+			sort(recursive);
+			System.out.println("\nBEST");
+			Person.readAndSetUp("best", count);
+			sort(recursive);
 		
-		for(int i = 0; i < pe.size(); i++)
-			if(!pe.get(i).equals(Person.getPersonen().get(i)))
-				System.out.println("FEHLER");
+			//Normales sortieren
+			System.out.println("\n\n\n\nWORST");
+			Person.readAndSetUp("worst", count);
+			sort(!recursive);
+			System.out.println("\nAVG");
+			Person.readAndSetUp("avg", count);
+			sort(!recursive);
+			System.out.println("\nBEST");
+			Person.readAndSetUp("best", count);
+			sort(!recursive);
+			
+			System.out.println("Restart?[0/1]");
+			
+			try{
+				if(Integer.parseInt(in.next()) == 1)
+					count = 0;
+			}catch(Exception e){
+				
+				break;
+			}
+		}while(count < 2);
 		
-		System.out.println("\n\n\n\nAnzahl der Elemente: "+Person.getPersonen().size());
+		System.out.println("Test aborted");
+		
+		in.close();
+	}
+	
+	public static boolean testSorting(boolean isRecursive) throws Exception{
+		
+		Person.readAndSetUp("best", 999999);
+		List<Person> superListe = new ArrayList<Person>(Person.getPersonen());
+		
+		Person.readAndSetUp("avg", 999999);
+		sort(isRecursive);
+		
+		for(int i = 0; i < Person.getPersonen().size(); i++)
+			if(!superListe.get(i).equals(Person.getPersonen().get(i)))
+				return false;
+		
+		return true;
 	}
 	
 	public static void sort(boolean r) {
@@ -43,14 +95,14 @@ public class Main {
 		double start = System.currentTimeMillis();
 
 		if(r){
-			System.out.print("\nRekursiv("+Person.getPersonen().size()+")\t");
+			System.out.print("\trecursive("+Person.getPersonen().size()+")\t");
 			Person.setPersonen(mergeSort(Person.getPersonen()));
 		}
 		else{
-			System.out.println("\nNormal("+Person.getPersonen().size()+")\t");
-			bubbleSort(Person.getPersonen());
+			System.out.print("\tnormal("+Person.getPersonen().size()+")\t");
+			selectionSort(Person.getPersonen());
 		}
-		System.out.print("Dauer = "+ (System.currentTimeMillis()-start)+"\n");
+		System.out.print("Duration = "+ (System.currentTimeMillis()-start)+" ms\n");
 	}
 	
 	public static List<Person> mergeSort(List<Person> pers){
@@ -97,23 +149,18 @@ public class Main {
 		return erg;
 	}
 
-	public static void bubbleSort(List<Person> ar){
+	public static void selectionSort(List<Person> ar){
 		
-		boolean sorted = false;
-		int upper_border = ar.size();
-		while(!sorted){
+		for(int i = 0; i < ar.size()-1; i++){
 			
-			sorted = true;
-			upper_border--;
-			for(int i = 0; i < upper_border; i++){
-				if(ar.get(i).compareTo(ar.get(i+1)) == 1){
-					swap(ar, i, i+1);
-					sorted = false;
-				}
+			int min = i;
+			for(int j = i+1; j < ar.size(); j++){
+				if(ar.get(min).compareTo(ar.get(j)) == 1)
+					min = j;
 			}
-			
+			swap(ar, i, min);
+			System.out.println(i);
 		}
-		
 	}
 	
 	public static void swap(List<Person> a, int x, int y){
