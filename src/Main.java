@@ -6,6 +6,7 @@ public class Main {
 
 	static double dur;
 	static boolean recursive = true;
+	static String[] mode = { "best", "avg", "worst" };
 	
 	public static void main(String[] args) {
 
@@ -34,28 +35,19 @@ public class Main {
 			}
 		
 			double[] rec = new double[3];
-			double[] nor = new double[3];
+			double[] normal = new double[3];
 			
-			//Rekursiv
-			Person.readAndSetUp("best", count);
-			rec[0] = sort(recursive);
-			Person.readAndSetUp("avg", count);
-			rec[1] = sort(recursive);
-			Person.readAndSetUp("worst", count);
-			rec[2] = sort(recursive);
-			
-			//Normal
-			Person.readAndSetUp("best", count);
-			nor[0] = sort(!recursive);
-			Person.readAndSetUp("avg", count);
-			nor[1] = sort(!recursive);
-			Person.readAndSetUp("worst", count);
-			nor[2] = sort(!recursive);
+			for(int i = 0; i < 3; i++){
+				Person.readAndSetUp(mode[i], count);
+				rec[i] = sort(recursive);
+				Person.readAndSetUp(mode[i], count);
+				normal[i] = sort(recursive);
+			}
 			
 			System.out.println("\n\n\n\tRecursive\tNormal");
-			System.out.println("\nBEST\t  "+rec[0]+"\t\t "+nor[0]);
-			System.out.println("\nAVG\t  "+rec[1]+"\t\t "+nor[1]);
-			System.out.println("\nWORST\t  "+rec[2]+"\t\t "+nor[2]);
+			System.out.println("\nBEST\t"+rec[0]+"ms\t"+normal[0]+"ms");
+			System.out.println("\nAVG\t"+rec[1]+"ms\t\t"+normal[1]+"ms");
+			System.out.println("\nWORST\t"+rec[2]+"ms\t\t"+normal[2]+"ms");
 			
 			System.out.println("\n\n");
 			System.out.println("Restart?[0/1]");
@@ -76,10 +68,10 @@ public class Main {
 	
 	public static boolean testSorting(boolean isRecursive) throws Exception{
 		
-		Person.readAndSetUp("best", 999999);
+		Person.readAndSetUp(mode[0], 999999);
 		List<Person> superListe = new ArrayList<Person>(Person.getPersonen());
 		
-		Person.readAndSetUp("avg", 999999);
+		Person.readAndSetUp(mode[1], 999999);
 		sort(isRecursive);
 		
 		for(int i = 0; i < Person.getPersonen().size(); i++)
@@ -89,24 +81,24 @@ public class Main {
 		return true;
 	}
 	
-	public static double sort(boolean r) {
+	public static <T extends Comparable<T>> double sort(boolean r) {
 		
 		double start = System.currentTimeMillis();
 
 		if(r)
-			Person.setPersonen(mergeSort(Person.getPersonen()));
+			Person.setPersonen((List<Person>)mergeSort((List<T>) Person.getPersonen()));
 		else
-			selectionSort(Person.getPersonen());
-		
+			selectionSort((List<T>) Person.getPersonen());
+
 		return (System.currentTimeMillis()-start);
 	}
 	
-	public static List<Person> mergeSort(List<Person> pers){
+	public static <T extends Comparable<T>> List<T> mergeSort(List<T> pers){
 		
 		if(pers.size() > 1){
 			
-			List<Person> p1 = pers.subList(0, pers.size()/2);
-			List<Person> p2 = pers.subList((pers.size()/2), pers.size());
+			List<T> p1 = pers.subList(0, pers.size()/2);
+			List<T> p2 = pers.subList((pers.size()/2), pers.size());
 			
 			return merge(mergeSort(p1), mergeSort(p2));
 		}
@@ -115,14 +107,14 @@ public class Main {
 		
 	}
 	
-	public static List<Person> merge(List<Person> m1, List<Person> m2) {
+	public static <T extends Comparable<T>> List<T> merge(List<T> m1, List<T> m2) {
 
 		int posA = 0, posB = 0;
 		
-		List<Person> erg = new ArrayList<Person>();
+		List<T> erg = new ArrayList<T>();
 		
 		while(posA < m1.size() && posB < m2.size()){
-			if(m1.get(posA).compareTo(m2.get(posB)) <= 0){
+			if(m1.get(posA).compareTo(m2.get(posB)) >= 0){
 				erg.add(m1.get(posA));
 				posA++;
 			}
@@ -145,7 +137,7 @@ public class Main {
 		return erg;
 	}
 
-	public static void selectionSort(List<Person> ar){
+	public static <T extends Comparable<T>> void selectionSort(List<T> ar){
 		
 		for(int i = 0; i < ar.size()-1; i++){
 			
@@ -158,9 +150,9 @@ public class Main {
 		}
 	}
 	
-	public static void swap(List<Person> a, int x, int y){
+	public static <T extends Comparable<T>> void swap(List<T> a, int x, int y){
 		
-		Person temp = a.get(x);
+		T temp = a.get(x);
 		//x = y
 		a.set(x,  a.get(y));
 		//y = x
