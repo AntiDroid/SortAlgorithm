@@ -5,7 +5,6 @@ import java.util.Scanner;
 
 public class Main {
 
-	static double dur;
 	static boolean recursive = true;
 	static String[] mode = { "best", "avg", "worst" };
 	
@@ -22,8 +21,7 @@ public class Main {
 	public void start() throws Exception{ 
 		
 		Scanner in = new Scanner(System.in);
-		
-		int count = 0;
+		int count;
 		
 		do{
 			System.out.println("How many entries should be used? (random input to abort)");
@@ -51,15 +49,14 @@ public class Main {
 			PrintWriter writer = new PrintWriter("the-file-name.txt", "UTF-8");
 			writer.println("\t\t  Recursive\t\t    Normal");
 			writer.println("         ----------------------------");
-			writer.println("BEST\t\t"+rec[0]+"ms \t\t\t"+normal[0]+"ms");
-			writer.println("\nAVG \t\t"+rec[1]+"ms \t\t\t"+normal[1]+"ms");
-			writer.println("\nWORST\t\t"+rec[2]+"ms \t\t\t"+normal[2]+"ms");
+			writer.println(mode[0].toUpperCase()+"\t\t"+rec[0]+"ms \t\t\t"+normal[0]+"ms");
+			writer.println("\n"+mode[1].toUpperCase()+" \t\t"+rec[1]+"ms \t\t\t"+normal[1]+"ms");
+			writer.println("\n"+mode[2].toUpperCase()+"\t\t"+rec[2]+"ms \t\t\t"+normal[2]+"ms");
 			writer.println("         ----------------------------");
 			writer.print("Items: "+count);
-		
-			
 			writer.close();
-			System.out.println("\n\n\n\n\n\n\n\n\n");
+			
+			System.out.println("\n\n");
 			
 		}while(true);
 		
@@ -144,7 +141,7 @@ public class Main {
 		for(int i = 0; i < ar.size()-1; i++){
 			
 			int min = i;
-			for(int j = i+1; j < ar.size(); j++){
+			for(int j = (i+1); j < ar.size(); j++){
 				if(ar.get(min).compareTo(ar.get(j)) == 1)
 					min = j;
 			}
@@ -155,9 +152,8 @@ public class Main {
 	public static void swap(List<Person> a, int x, int y){
 		
 		Person temp = a.get(x);
-		//x = y
+		
 		a.set(x,  a.get(y));
-		//y = x
 		a.set(y, temp);
 	}
 

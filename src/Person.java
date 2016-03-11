@@ -48,11 +48,15 @@ public class Person implements Comparable<Object>{
 		personen = p;
 	}
 
+	public String toString(){
+		return "Vorname: "+vorname+"\t\tNachname: "+nachname+"\nAlter: "+alter+"\n";
+	}
+
 	@Override
 	public boolean equals(Object o){
 		
 		Person p = (Person)o;
-		return (this.vorname.equals(p.vorname)) && (this.nachname.equals(p.nachname));// && (this.alter == p.alter);
+		return (this.vorname.equals(p.vorname)) && (this.nachname.equals(p.nachname)) && (this.alter == p.alter);
 	}
 	
 	@Override
@@ -94,10 +98,6 @@ public class Person implements Comparable<Object>{
 		return 0;
 	}
 
-	public String toString(){
-		return "Vorname: "+vorname+"\t\tNachname: "+nachname+"\nAlter: "+alter+"\n";
-	}
-	
 	public static void readAndSetUp(String fileName, int maxEntries) throws Exception{
 			
 		String csv = "emp_"+fileName+".csv";
