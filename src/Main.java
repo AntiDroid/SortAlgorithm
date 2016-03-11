@@ -81,24 +81,24 @@ public class Main {
 		return true;
 	}
 	
-	public static <T extends Comparable<T>> double sort(boolean r) {
+	public static  double sort(boolean r) {
 		
 		double start = System.currentTimeMillis();
 
 		if(r)
-			Person.setPersonen((List<Person>)mergeSort((List<T>) Person.getPersonen()));
+			Person.setPersonen(mergeSort(Person.getPersonen()));
 		else
-			selectionSort((List<T>) Person.getPersonen());
+			selectionSort(Person.getPersonen());
 
 		return (System.currentTimeMillis()-start);
 	}
 	
-	public static <T extends Comparable<T>> List<T> mergeSort(List<T> pers){
+	public static List<Person> mergeSort(List<Person> pers){
 		
 		if(pers.size() > 1){
 			
-			List<T> p1 = pers.subList(0, pers.size()/2);
-			List<T> p2 = pers.subList((pers.size()/2), pers.size());
+			List<Person> p1 = pers.subList(0, pers.size()/2);
+			List<Person> p2 = pers.subList((pers.size()/2), pers.size());
 			
 			return merge(mergeSort(p1), mergeSort(p2));
 		}
@@ -107,11 +107,11 @@ public class Main {
 		
 	}
 	
-	public static <T extends Comparable<T>> List<T> merge(List<T> m1, List<T> m2) {
+	public static List<Person> merge(List<Person> m1, List<Person> m2) {
 
 		int posA = 0, posB = 0;
 		
-		List<T> erg = new ArrayList<T>();
+		List<Person> erg = new ArrayList<Person>();
 		
 		while(posA < m1.size() && posB < m2.size()){
 			if(m1.get(posA).compareTo(m2.get(posB)) <= 0){
@@ -137,7 +137,7 @@ public class Main {
 		return erg;
 	}
 
-	public static <T extends Comparable<T>> void selectionSort(List<T> ar){
+	public static void selectionSort(List<Person> ar){
 		
 		for(int i = 0; i < ar.size()-1; i++){
 			
@@ -150,9 +150,9 @@ public class Main {
 		}
 	}
 	
-	public static <T extends Comparable<T>> void swap(List<T> a, int x, int y){
+	public static void swap(List<Person> a, int x, int y){
 		
-		T temp = a.get(x);
+		Person temp = a.get(x);
 		//x = y
 		a.set(x,  a.get(y));
 		//y = x
