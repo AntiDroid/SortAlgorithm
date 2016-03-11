@@ -43,7 +43,7 @@ public class Main {
 				rec[i] = sort(recursive);
 				
 				Person.readAndSetUp(mode[i], count);
-				normal[i] = sort(recursive);
+				normal[i] = sort(!recursive);
 			}
 			
 			PrintWriter writer = new PrintWriter("the-file-name.txt", "UTF-8");
@@ -66,10 +66,8 @@ public class Main {
 	
 	public static boolean testSorting(boolean isRecursive) throws Exception{
 		
-		Person.readAndSetUp(mode[1], 99999);
-		sort(isRecursive);
-		List<Person> superListe = new ArrayList<Person>();
-		superListe.addAll(Person.getPersonen());
+		Person.readAndSetUp(mode[0], 99999);
+		List<Person> superListe = new ArrayList<Person>(Person.getPersonen());
 		
 		Person.readAndSetUp(mode[1], 99999);
 		sort(isRecursive);
