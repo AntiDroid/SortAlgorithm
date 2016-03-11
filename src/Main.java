@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class Main {
 
 	static boolean recursive = true;
-	static String[] mode = { "best", "avg", "worst" };
+	static String[] mode = { "worst", "avg", "best" };
 	
 	public static void main(String[] args) {
 
@@ -21,46 +21,43 @@ public class Main {
 	public void start() throws Exception{ 
 		
 		Scanner in = new Scanner(System.in);
-		int count;
+		int count = 0;
 		
 		do{
-			System.out.println("How many entries should be used? (random input to abort)");
+			System.out.println("How many entries should be used?");
 			
 			try{
 				count = Integer.parseInt(in.next());
 				if(count < 2)
 					throw new Exception();
 			}catch(Exception e){
-				break;
+				continue;
 			}
-			
-			double[] rec = new double[3];
-			double[] normal = new double[3];
-			
-			for(int i = 0; i < 3; i++){
-				
-				Person.readAndSetUp(mode[i], count);
-				rec[i] = sort(recursive);
-				
-				Person.readAndSetUp(mode[i], count);
-				normal[i] = sort(!recursive);
-			}
-			
-			PrintWriter writer = new PrintWriter("the-file-name.txt", "UTF-8");
-			writer.println("\t\t  Recursive\t\t    Normal");
-			writer.println("         ----------------------------");
-			writer.println(mode[0].toUpperCase()+"\t\t"+rec[0]+"ms \t\t\t"+normal[0]+"ms");
-			writer.println("\n"+mode[1].toUpperCase()+" \t\t"+rec[1]+"ms \t\t\t"+normal[1]+"ms");
-			writer.println("\n"+mode[2].toUpperCase()+"\t\t"+rec[2]+"ms \t\t\t"+normal[2]+"ms");
-			writer.println("         ----------------------------");
-			writer.print("Items: "+count);
-			writer.close();
-			
-			System.out.println("\n\n");
+			break;
 			
 		}while(true);
 		
-		System.out.println("Benchmark aborted");
+		double[] rec = new double[3];
+		double[] normal = new double[3];
+			
+		for(int i = 0; i < 3; i++){
+				
+			Person.readAndSetUp(mode[i], count);
+			rec[i] = sort(recursive);
+				
+			Person.readAndSetUp(mode[i], count);
+			normal[i] = sort(!recursive);
+		}
+			
+		PrintWriter writer = new PrintWriter("the-file-name.txt", "UTF-8");
+		writer.println("\t\t  Recursive\t\t    Normal");
+		writer.println("         ----------------------------");
+		writer.println(mode[0].toUpperCase()+"\t\t"+rec[0]+"ms \t\t\t"+normal[0]+"ms");
+		writer.println("\n"+mode[1].toUpperCase()+" \t\t"+rec[1]+"ms \t\t\t"+normal[1]+"ms");
+		writer.println("\n"+mode[2].toUpperCase()+"\t\t"+rec[2]+"ms \t\t\t"+normal[2]+"ms");
+		writer.println("         ----------------------------");
+		writer.print("Items: "+count);
+		writer.close();
 		
 		in.close();
 	}
