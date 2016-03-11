@@ -30,6 +30,8 @@ public class Main {
 			
 			try{
 				count = Integer.parseInt(in.next());
+				if(count < 2)
+					throw new Exception();
 			}catch(Exception e){
 				break;
 			}
@@ -47,11 +49,13 @@ public class Main {
 			}
 			
 			PrintWriter writer = new PrintWriter("the-file-name.txt", "UTF-8");
-			writer.println("\n\n\n\t  Recursive\t\t   Normal");
-			writer.println("\nBEST\t "+rec[0]+"ms \t\t\t"+normal[0]+"ms");
-			writer.println("\nAVG \t "+rec[1]+"ms \t\t\t"+normal[1]+"ms");
-			writer.println("\nWORST\t "+rec[2]+"ms \t\t\t"+normal[2]+"ms");
-			writer.println("\nItems: "+count);
+			writer.println("\t\t  Recursive\t\t    Normal");
+			writer.println("         ----------------------------");
+			writer.println("BEST\t\t"+rec[0]+"ms \t\t\t"+normal[0]+"ms");
+			writer.println("\nAVG \t\t"+rec[1]+"ms \t\t\t"+normal[1]+"ms");
+			writer.println("\nWORST\t\t"+rec[2]+"ms \t\t\t"+normal[2]+"ms");
+			writer.println("         ----------------------------");
+			writer.print("Items: "+count);
 		
 			
 			writer.close();
