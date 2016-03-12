@@ -44,7 +44,6 @@ public class Main {
 		double[] rec = new double[3];
 		double[] normal = new double[3];
 			
-		System.out.println("Geht");
 		for(int i = 0; i < 3; i++){
 				
 			Person.readAndSetUp(mode[i], count);
