@@ -44,6 +44,7 @@ public class Main {
 		double[] rec = new double[3];
 		double[] normal = new double[3];
 			
+		System.out.println("Geht");
 		for(int i = 0; i < 3; i++){
 				
 			Person.readAndSetUp(mode[i], count);
@@ -52,7 +53,7 @@ public class Main {
 			Person.readAndSetUp(mode[i], count);
 			normal[i] = sort(!recursive);
 		}
-			
+		
 		PrintWriter writer = new PrintWriter("the-file-name.txt", "UTF-8");
 		writer.println("\t\t  Recursive\t\t    Normal");
 		writer.println("         ----------------------------");
@@ -64,21 +65,6 @@ public class Main {
 		writer.close();
 		
 		in.close();
-	}
-	
-	public static boolean testSorting(boolean isRecursive) throws Exception{
-		
-		Person.readAndSetUp(mode[0], 99999);
-		List<Person> superListe = new ArrayList<Person>(Person.getPersonen());
-		
-		Person.readAndSetUp(mode[1], 99999);
-		sort(isRecursive);
-		
-		for(int i = 0; i < Person.getPersonen().size(); i++)
-			if(!superListe.get(i).equals(Person.getPersonen().get(i)))
-				return false;
-		
-		return true;
 	}
 	
 	/**
