@@ -18,6 +18,10 @@ public class Main {
 		}
 	}
 
+	/**
+	 * Testsequenz der Sortieralgorithmen unter verschiedenen Bedingungen
+	 * @throws Exception
+	 */
 	public void start() throws Exception{ 
 		
 		Scanner in = new Scanner(System.in);
@@ -77,24 +81,37 @@ public class Main {
 		return true;
 	}
 	
-	public static  double sort(boolean r) {
+	/**
+	 * Sortiermethode, welche die Zeit stoppt und den Algorithmus aussucht
+	 * @param r zur Bestimmung des Algorithmuses 
+	 * @return Dauer des Vorgangs in ms
+	 */
+	public static <T extends Comparable<T>> double sort(boolean r) {
 		
 		double start = System.currentTimeMillis();
 
 		if(r)
-			Person.setPersonen(mergeSort(Person.getPersonen()));
+			Person.setPersonen((List<Person>)mergeSort((List<T>)Person.getPersonen()));
 		else
-			selectionSort(Person.getPersonen());
+			selectionSort((List<T>)Person.getPersonen());
 
 		return (System.currentTimeMillis()-start);
 	}
 	
-	public static List<Person> mergeSort(List<Person> pers){
+	/**
+	 * Der Kopfabschnitt des Merge-Sortier-Algorithmuses. 
+	 * Er teilt die bestehnden Arrays in kleinere und uebergibt sie
+	 * zur Verarbeitung an den eigentlichen Sortierer - merge().
+	 * Dieser Vorgang geschieht rekursiv, sich selbst wiederholend.
+	 * @param pers zu sortierende Liste
+	 * @return die sortierte Unterliste
+	 */
+	public static <T extends Comparable<T>> List<T> mergeSort(List<T> pers){
 		
 		if(pers.size() > 1){
 			
-			List<Person> p1 = pers.subList(0, pers.size()/2);
-			List<Person> p2 = pers.subList((pers.size()/2), pers.size());
+			List<T> p1 = pers.subList(0, pers.size()/2);
+			List<T> p2 = pers.subList((pers.size()/2), pers.size());
 			
 			return merge(mergeSort(p1), mergeSort(p2));
 		}
@@ -103,11 +120,19 @@ public class Main {
 		
 	}
 	
-	public static List<Person> merge(List<Person> m1, List<Person> m2) {
+	/**
+	 * Der eigentliche Sortiervorgang des Merge-Sortierens.
+	 * Die beiden aufgeteilten Arrays werden zu einem neuen sortierten
+	 * umgeschrieben.
+	 * @param m1 Array 1
+	 * @param m2 Array 2
+	 * @return die sortierte Teil oder Hauptliste
+	 */
+	public static <T extends Comparable<T>> List<T> merge(List<T> m1, List<T> m2) {
 
 		int posA = 0, posB = 0;
 		
-		List<Person> erg = new ArrayList<Person>();
+		List<T> erg = new ArrayList<T>();
 		
 		while(posA < m1.size() && posB < m2.size()){
 			if(m1.get(posA).compareTo(m2.get(posB)) <= 0){
@@ -133,7 +158,13 @@ public class Main {
 		return erg;
 	}
 
-	public static void selectionSort(List<Person> ar){
+	/**
+	 * Einfacher Sortieralgorithmus.
+	 * Man sucht für ein Element i ein nachfolgendes groesseres Element
+	 * min und tauscht diese dann in der Position.
+	 * @param ar die zu sortierende Liste
+	 */
+	public static <T extends Comparable<T>> void selectionSort(List<T> ar){
 		
 		for(int i = 0; i < ar.size()-1; i++){
 			
@@ -146,9 +177,15 @@ public class Main {
 		}
 	}
 	
-	public static void swap(List<Person> a, int x, int y){
+	/**
+	 * Tauscht zwei Positionen aus einem Array miteinander
+	 * @param a Array
+	 * @param x Position 1
+	 * @param y Position 2
+	 */
+	public static <T extends Comparable<T>> void swap(List<T> a, int x, int y){
 		
-		Person temp = a.get(x);
+		T temp = a.get(x);
 		
 		a.set(x,  a.get(y));
 		a.set(y, temp);

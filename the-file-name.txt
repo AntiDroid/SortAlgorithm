@@ -1,9 +1,9 @@
 		  Recursive		    Normal
          ----------------------------
-WORST		7.0ms 			41.0ms
+WORST		9.0ms 			65.0ms
 
-AVG 		3.0ms 			30.0ms
+AVG 		3.0ms 			50.0ms
 
-BEST		1.0ms 			31.0ms
+BEST		2.0ms 			44.0ms
          ----------------------------
-Items: 1231
+Items: 1500

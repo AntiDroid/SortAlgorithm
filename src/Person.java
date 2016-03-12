@@ -52,6 +52,9 @@ public class Person implements Comparable<Object>{
 		return "Vorname: "+vorname+"\t\tNachname: "+nachname+"\nAlter: "+alter+"\n";
 	}
 
+	/**
+	 * Ueberschriebene Equals-Methode, welche beschreibt, wann zwei Objekte identisch sind.
+	 */
 	@Override
 	public boolean equals(Object o){
 		
@@ -59,6 +62,10 @@ public class Person implements Comparable<Object>{
 		return (this.vorname.equals(p.vorname)) && (this.nachname.equals(p.nachname)) && (this.alter == p.alter);
 	}
 	
+	/**
+	 * Ueberschriebene Equals-Methode, welche beschreibt,
+	 * wie ein Objekt verglichen mit einem anderen ist. Groesser, kleiner, gleich.
+	 */
 	@Override
 	public int compareTo(Object arg0) {
 		
@@ -98,6 +105,12 @@ public class Person implements Comparable<Object>{
 		return 0;
 	}
 
+	/**
+	 * Liest eine Datei ein und speichert die ausgelesenen Elemente in der statischen Personenliste.
+	 * @param fileName der mittlere Abschnitt des File-Namens
+	 * @param maxEntries maximale Anzahl an Objekten
+	 * @throws Exception
+	 */
 	public static void readAndSetUp(String fileName, int maxEntries) throws Exception{
 			
 		String csv = "emp_"+fileName+".csv";
